@@ -1,18 +1,30 @@
-let count = 0;
-radio.setGroup(1);
+const Modes = {
+    MAIN: 0,
+    SETTING: 1,
+    PLAY: 2,
+};
+const Errors = {
+    InvalidMode: 0
+};
 
-let p1 = game.createSprite(2, 2);
+let mode = Modes.MAIN;
 
-basic.forever(function () {
-    basic.showNumber(count);
+function switchMode(newMode: number) {
+    mode = newMode;
 
-    basic.pause(1000);
+    renderScreen();
+};
 
-    p1.move(1);
-    p1.setDirection(count);
-    count++;
-    radio.sendNumber(count);
-});
-radio.onReceivedNumber((c) => {
-    count = c;
-});
+function renderScreen() {
+    switch(mode) {
+        default:
+            error(Errors.InvalidMode);
+    }
+}
+
+function error(errorCode: number) {
+    basic.showNumber(errorCode);
+    led.plot(0, 0);
+}
+
+switchMode(Modes.MAIN);
